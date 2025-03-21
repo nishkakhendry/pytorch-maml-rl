@@ -306,7 +306,7 @@ class SamplerWorker(mp.Process):
         return episodes
 
     def sample_trajectories(self, params=None):
-        observations = self.envs.reset(seed=self.seed)
+        observations = self.envs.reset() #seed=self.seed)
         with torch.no_grad():
             while not self.envs.dones.all():
                 observations_tensor = torch.from_numpy(observations)

@@ -61,6 +61,7 @@ def main(args):
     num_iterations = 0
     train_logs = {}
     for batch in trange(config['num-batches']):
+        print("batch: ", batch)
         tasks = sampler.sample_tasks(num_tasks=config['meta-batch-size'])
         futures = sampler.sample_async(tasks,
                                        num_steps=config['num-steps'],
