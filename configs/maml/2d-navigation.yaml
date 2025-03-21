@@ -8,8 +8,8 @@ env-kwargs:
   low: -0.5
   high: 0.5
 
-# Discount factor gamma.
-gamma: 0.99
+# Discount factor gamma. was 0.99
+gamma: 0.95
 
 # Discount factor lambda used in "Generalized Advantage Estimation" (GAE).
 gae-lambda: 1.0
@@ -33,8 +33,8 @@ fast-batch-size: 20
 # Number of gradient steps in the inner loop / fast adaptation.
 num-steps: 1
 
-# Step size for each gradient step in the inner loop / fast adaptation.
-fast-lr: 0.1
+# Step size for each gradient step in the inner loop / fast adaptation. was 0.1
+fast-lr: 0.2
 
 # Optimization
 # ------------
