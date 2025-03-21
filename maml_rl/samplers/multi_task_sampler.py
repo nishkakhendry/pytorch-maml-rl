@@ -81,7 +81,6 @@ class MultiTaskSampler(Sampler):
                                                env=env)
 
         self.num_workers = num_workers
-        self.seed = seed
 
         self.task_queue = mp.JoinableQueue()
         self.train_episodes_queue = mp.Queue()
@@ -232,7 +231,7 @@ class SamplerWorker(mp.Process):
         self.envs = SyncVectorEnv(env_fns,
                                   observation_space=observation_space,
                                   action_space=action_space)
-        self.envs.seed(None if (seed is None) else seed + index * batch_size)
+        # self.envs.seed(None if (seed is None) else seed + index * batch_size)
         self.batch_size = batch_size
         self.policy = policy
         self.baseline = baseline
