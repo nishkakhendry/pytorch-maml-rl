@@ -97,7 +97,7 @@ def main(args):
             value = train_logs[key]
             if isinstance(value, np.ndarray):
                 train_logs[key] = value.tolist()
-   
+        print("------" , train_logs)
         train_log_filename = os.path.join(args.output_folder, 'train_logs.json')
         with open(train_log_filename, 'a') as f:
             json.dump(train_logs, f)
