@@ -232,6 +232,7 @@ class SamplerWorker(mp.Process):
                                   observation_space=observation_space,
                                   action_space=action_space)
         # self.envs.seed(None if (seed is None) else seed + index * batch_size)
+        self.seed = None if (seed is None) else seed + index * batch_size
         self.batch_size = batch_size
         self.policy = policy
         self.baseline = baseline
@@ -305,7 +306,7 @@ class SamplerWorker(mp.Process):
         return episodes
 
     def sample_trajectories(self, params=None):
-        observations = self.envs.reset()
+        observations = self.envs.reset(seed=self.seed)
         with torch.no_grad():
             while not self.envs.dones.all():
                 observations_tensor = torch.from_numpy(observations)
