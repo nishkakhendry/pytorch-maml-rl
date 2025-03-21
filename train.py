@@ -93,11 +93,31 @@ def main(args):
                 torch.save(policy.state_dict(), f)
         
         # Save logs
-        for key in train_logs.keys():
-            value = train_logs[key]
-            if isinstance(value, np.ndarray):
-                train_logs[key] = value.tolist()
-        print("------" , train_logs)
+        def convert_np_arrays(nested):
+            """
+            Recursively traverse a nested dictionary (and lists within it)
+            and convert any numpy array encountered to a list.
+            """
+            if isinstance(nested, dict):
+                for key, value in nested.items():
+                    if isinstance(value, np.ndarray):
+                        # Convert numpy array to list and overwrite the value
+                        nested[key] = value.tolist()
+                    elif isinstance(value, dict):
+                        # Recursively process nested dictionaries
+                        nested[key] = convert_np_arrays(value)
+                    elif isinstance(value, list):
+                        # Process lists that may contain dicts or numpy arrays
+                        nested[key] = [convert_np_arrays(item) for item in value]
+            elif isinstance(nested, list):
+                nested = [convert_np_arrays(item) for item in nested]
+            return nested
+        train_logs_list = convert_np_arrays(train_logs)
+        # for key in train_logs.keys():
+        #     value = train_logs[key]
+        #     if isinstance(value, np.ndarray):
+        #         train_logs[key] = value.tolist()
+        print("------" , train_logs_list)
         train_log_filename = os.path.join(args.output_folder, 'train_logs.json')
         with open(train_log_filename, 'a') as f:
             json.dump(train_logs, f)
