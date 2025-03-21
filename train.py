@@ -4,6 +4,7 @@ import json
 import os
 import yaml
 from tqdm import trange
+import numpy as np
 
 import maml_rl.envs
 from maml_rl.metalearners import MAMLTRPO
@@ -92,6 +93,11 @@ def main(args):
                 torch.save(policy.state_dict(), f)
         
         # Save logs
+        for key in train_logs.keys():
+            value = train_logs[key]
+            if isinstance(value, np.ndarray):
+                train_logs[key] = value.tolist()
+   
         train_log_filename = os.path.join(args.output_folder, 'train_logs.json')
         with open(train_log_filename, 'a') as f:
             json.dump(train_logs, f)
