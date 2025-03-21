@@ -105,8 +105,8 @@ tmp/
 run.sh
 
 # Logs & Saves
-logs/
-saves/
+# logs/
+# saves/
 wandb/
 
 # Slurm

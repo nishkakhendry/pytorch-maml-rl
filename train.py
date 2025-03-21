@@ -59,6 +59,7 @@ def main(args):
                            device=args.device)
 
     num_iterations = 0
+    train_logs = {}
     for batch in trange(config['num-batches']):
         tasks = sampler.sample_tasks(num_tasks=config['meta-batch-size'])
         futures = sampler.sample_async(tasks,
@@ -81,11 +82,19 @@ def main(args):
                     num_iterations=num_iterations,
                     train_returns=get_returns(train_episodes[0]),
                     valid_returns=get_returns(valid_episodes))
+        train_logs["batch_"+str(batch)] = logs
+        print("batch_"+str(batch), " ----- ", logs )
 
         # Save policy
         if args.output_folder is not None:
             with open(policy_filename, 'wb') as f:
                 torch.save(policy.state_dict(), f)
+        
+        # Save logs
+        train_log_filename = os.path.join(args.output_folder, 'train_logs.json')
+        with open(train_log_filename, 'a') as f:
+            json.dump(train_logs, f)
+            f.write('\n')
 
 
 if __name__ == '__main__':
