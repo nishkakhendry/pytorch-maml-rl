@@ -81,6 +81,7 @@ class MultiTaskSampler(Sampler):
                                                env=env)
 
         self.num_workers = num_workers
+        self.seed = seed
 
         self.task_queue = mp.JoinableQueue()
         self.train_episodes_queue = mp.Queue()
