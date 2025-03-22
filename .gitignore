@@ -106,6 +106,7 @@ run.sh
 
 # Logs & Saves
 # logs/
+maml-2dnavig/train_logs.json
 # saves/
 wandb/
 
